@@ -18,7 +18,18 @@
     "start": "node dist/server/node-build.mjs",
     "test": "vitest --run",
     "format.fix": "prettier --write .",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "deploy": "node deploy.js",
+    "docker:build": "docker build -t promohive .",
+    "docker:run": "docker run -p 8080:8080 promohive",
+    "docker:compose": "docker-compose up -d",
+    "docker:logs": "docker-compose logs -f",
+    "docker:stop": "docker-compose down",
+    "db:migrate": "prisma migrate deploy",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:studio": "prisma studio",
+    "db:reset": "prisma migrate reset",
+    "production": "NODE_ENV=production pnpm start"
   },
   "dependencies": {
     "@prisma/client": "^6.17.0",
