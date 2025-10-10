@@ -1,0 +1,727 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ===== USER MANAGEMENT =====
+model User {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  passwordHash      String
+  name              String?
+  phone             String?
+  country           String?
+  phoneCode         String?
+  avatar            String?
+  bio               String?
+  socialLinks       Json?    // { twitter, linkedin, instagram, etc. }
+  role              UserRole @default(USER)
+  status            UserStatus @default(PENDING)
+  verified          Boolean  @default(false)
+  emailVerified     Boolean  @default(false)
+  phoneVerified     Boolean  @default(false)
+  twoFactorEnabled  Boolean  @default(false)
+  twoFactorSecret   String?
+  
+  // Level and Rewards System
+  level             Int      @default(0)
+  points            Int      @default(0)
+  balance           Float    @default(0)
+  totalEarned       Float    @default(0)
+  welcomeBonus      Boolean  @default(false)
+  
+  // Account Security
+  lastLoginAt       DateTime?
+  loginAttempts     Int      @default(0)
+  lockedUntil       DateTime?
+  passwordChangedAt DateTime?
+  
+  // Preferences
+  language          String   @default("en")
+  timezone          String?
+  notificationPrefs Json?    // { email, sms, push, inApp }
+  privacySettings   Json?    // { profileVisibility, dataSharing, etc. }
+  
+  // Referral System
+  referralCode      String   @unique @default(cuid())
+  referredBy        String?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  // Relations
+  submissions       Submission[]
+  transactions      Transaction[]
+  withdrawals       Withdrawal[]
+  achievements      UserAchievement[]
+  notifications     Notification[]
+  loginHistory      LoginHistory[]
+  paymentMethods    PaymentMethod[]
+  supportTickets    SupportTicket[]
+  taskViews         TaskView[]
+  
+  // Referral relations
+  referralsMade     Referral[] @relation("referrer")
+  referralsGot      Referral[] @relation("referee")
+  
+  @@map("users")
+}
+
+model Admin {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String?
+  role          AdminRole @default(ADMIN)
+  permissions   Json?    // Array of permission strings
+  lastLoginAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@map("admins")
+}
+
+model LoginHistory {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  ipAddress String?
+  userAgent String?
+  location  String?
+  success   Boolean
+  createdAt DateTime @default(now())
+  
+  @@map("login_history")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum UserStatus {
+  PENDING
+  APPROVED
+  SUSPENDED
+  BANNED
+}
+
+enum AdminRole {
+  ADMIN
+  SUPER_ADMIN
+  MODERATOR
+}
+
+// ===== TASK MANAGEMENT =====
+model Task {
+  id                String   @id @default(cuid())
+  title             String
+  description       String
+  shortDescription  String?
+  type              TaskType
+  category          String?
+  tags              String[] // Array of tag strings
+  reward            Float
+  difficulty        TaskDifficulty @default(EASY)
+  estimatedTime     Int?     // in minutes
+  
+  // Requirements
+  minLevel          Int      @default(0)
+  maxParticipants   Int?
+  ageRestriction    Int?     // minimum age
+  countryRestriction String[] // Array of country codes
+  skillRequirements String[] // Array of required skills
+  
+  // Verification
+  verificationType  VerificationType
+  verificationData  Json?    // Specific verification requirements
+  
+  // Status and Scheduling
+  status            TaskStatus @default(DRAFT)
+  publishedAt       DateTime?
+  expiresAt         DateTime?
+  autoApprove       Boolean  @default(false)
+  
+  // Metadata
+  metadata          Json?    // Additional task-specific data
+  attachments       String[] // Array of file URLs
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  // Relations
+  submissions       Submission[]
+  taskViews         TaskView[]
+  
+  @@map("tasks")
+}
+
+model TaskView {
+  id        String   @id @default(cuid())
+  task      Task     @relation(fields: [taskId], references: [id])
+  taskId    String
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+  ipAddress String?
+  createdAt DateTime @default(now())
+  
+  @@map("task_views")
+}
+
+model Submission {
+  id            String   @id @default(cuid())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String
+  task          Task     @relation(fields: [taskId], references: [id])
+  taskId        String
+  status        SubmissionStatus @default(PENDING)
+  
+  // Submission Data
+  payload       Json?    // Submission content (text, files, etc.)
+  attachments   String[] // Array of file URLs
+  notes         String?  // Additional notes from user
+  
+  // Verification
+  verifiedBy    String?  // Admin ID who verified
+  verifiedAt    DateTime?
+  score         Int?     // Quality score 1-10
+  feedback      String?  // Admin feedback
+  
+  // Timing
+  startedAt     DateTime?
+  completedAt   DateTime?
+  submittedAt   DateTime @default(now())
+  
+  @@map("submissions")
+}
+
+enum TaskType {
+  TEXT_VERIFICATION
+  URL_VERIFICATION
+  IMAGE_VERIFICATION
+  VIDEO_VERIFICATION
+  FILE_VERIFICATION
+  SURVEY_VERIFICATION
+  LOCATION_VERIFICATION
+  SOCIAL_MEDIA_VERIFICATION
+  NO_VERIFICATION
+}
+
+enum TaskDifficulty {
+  EASY
+  MEDIUM
+  HARD
+  EXPERT
+}
+
+enum VerificationType {
+  MANUAL
+  AUTOMATIC
+  PEER_REVIEW
+  AI_VERIFICATION
+}
+
+enum TaskStatus {
+  DRAFT
+  PUBLISHED
+  PAUSED
+  COMPLETED
+  ARCHIVED
+}
+
+enum SubmissionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  NEEDS_REVISION
+  UNDER_REVIEW
+}
+
+// ===== FINANCIAL SYSTEM =====
+model Transaction {
+  id            String   @id @default(cuid())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String
+  amount        Float
+  type          TransactionType
+  status        TransactionStatus @default(PENDING)
+  
+  // Related entities
+  taskId        String?
+  submissionId  String?
+  withdrawalId  String?
+  referralId    String?
+  
+  // Payment details
+  paymentMethod String?
+  paymentId     String?  // External payment processor ID
+  currency      String   @default("USD")
+  
+  // Metadata
+  description   String?
+  metadata      Json?    // Additional transaction data
+  
+  createdAt     DateTime @default(now())
+  processedAt   DateTime?
+  
+  @@map("transactions")
+}
+
+model Withdrawal {
+  id            String   @id @default(cuid())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String
+  amount        Float
+  status        WithdrawalStatus @default(PENDING)
+  method        WithdrawalMethod
+  
+  // Payment details
+  paymentDetails Json?   // Bank details, PayPal email, etc.
+  processingFee Float    @default(0)
+  
+  // Admin processing
+  processedBy   String?  // Admin ID
+  processedAt   DateTime?
+  rejectionReason String?
+  
+  createdAt     DateTime @default(now())
+  
+  @@map("withdrawals")
+}
+
+model PaymentMethod {
+  id            String   @id @default(cuid())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String
+  type          PaymentMethodType
+  isDefault     Boolean  @default(false)
+  
+  // Encrypted payment details
+  encryptedData Json     // Encrypted payment information
+  last4         String?  // Last 4 digits for display
+  brand         String?  // Card brand (Visa, MasterCard, etc.)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@map("payment_methods")
+}
+
+enum TransactionType {
+  TASK_REWARD
+  REFERRAL_BONUS
+  WELCOME_BONUS
+  LEVEL_UPGRADE
+  WITHDRAWAL
+  REFUND
+  PENALTY
+  ADMIN_ADJUSTMENT
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
+enum WithdrawalStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  REJECTED
+  CANCELLED
+}
+
+enum WithdrawalMethod {
+  BANK_TRANSFER
+  PAYPAL
+  CRYPTO
+  CASHAPP
+  VENMO
+  WESTERN_UNION
+}
+
+enum PaymentMethodType {
+  CREDIT_CARD
+  DEBIT_CARD
+  BANK_ACCOUNT
+  PAYPAL
+  CRYPTO_WALLET
+}
+
+// ===== REFERRAL SYSTEM =====
+model Referral {
+  id            String   @id @default(cuid())
+  referrer      User     @relation("referrer", fields: [referrerId], references: [id])
+  referrerId    String
+  referee       User     @relation("referee", fields: [refereeId], references: [id])
+  refereeId     String
+  reward        Float
+  status        ReferralStatus @default(PENDING)
+  
+  // Referral tracking
+  source        String?  // Where the referral came from
+  campaign      String?  // Marketing campaign
+  
+  createdAt     DateTime @default(now())
+  rewardedAt   DateTime?
+  
+  @@unique([referrerId, refereeId])
+  @@map("referrals")
+}
+
+enum ReferralStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+// ===== GAMIFICATION SYSTEM =====
+model UserAchievement {
+  id            String   @id @default(cuid())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String
+  achievement   Achievement @relation(fields: [achievementId], references: [id])
+  achievementId String
+  progress      Int      @default(0)
+  completed     Boolean  @default(false)
+  completedAt   DateTime?
+  createdAt     DateTime @default(now())
+  
+  @@unique([userId, achievementId])
+  @@map("user_achievements")
+}
+
+model Achievement {
+  id            String   @id @default(cuid())
+  key           String   @unique
+  name          String
+  description   String
+  icon          String?
+  category      AchievementCategory
+  points        Int      @default(0)
+  reward        Float    @default(0)
+  
+  // Requirements
+  requirements  Json?    // Achievement requirements
+  isActive      Boolean  @default(true)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  userAchievements UserAchievement[]
+  
+  @@map("achievements")
+}
+
+model LevelUpgrade {
+  id            String   @id @default(cuid())
+  userId        String
+  fromLevel     Int
+  toLevel       Int
+  cost          Float
+  status        UpgradeStatus @default(PENDING)
+  paymentId     String?
+  
+  createdAt     DateTime @default(now())
+  processedAt   DateTime?
+  
+  @@map("level_upgrades")
+}
+
+enum AchievementCategory {
+  TASK_COMPLETION
+  REFERRAL
+  LEVEL
+  STREAK
+  SPECIAL
+  SOCIAL
+}
+
+enum UpgradeStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+// ===== NOTIFICATION SYSTEM =====
+model Notification {
+  id            String   @id @default(cuid())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String
+  type          NotificationType
+  title         String
+  message       String
+  data          Json?    // Additional notification data
+  
+  // Status
+  read          Boolean  @default(false)
+  readAt        DateTime?
+  
+  // Delivery
+  channels      NotificationChannel[] // Array of delivery channels
+  
+  createdAt     DateTime @default(now())
+  
+  @@map("notifications")
+}
+
+model EmailTemplate {
+  id            String   @id @default(cuid())
+  key           String   @unique
+  name          String
+  subject       String
+  htmlTemplate  String
+  textTemplate  String?
+  variables     Json?    // Available template variables
+  isActive      Boolean  @default(true)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@map("email_templates")
+}
+
+model SMSTemplate {
+  id            String   @id @default(cuid())
+  key           String   @unique
+  name          String
+  message       String
+  variables     Json?    // Available template variables
+  isActive      Boolean  @default(true)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@map("sms_templates")
+}
+
+enum NotificationType {
+  TASK_ASSIGNED
+  TASK_COMPLETED
+  TASK_APPROVED
+  TASK_REJECTED
+  PAYMENT_RECEIVED
+  WITHDRAWAL_PROCESSED
+  LEVEL_UPGRADED
+  ACHIEVEMENT_UNLOCKED
+  REFERRAL_BONUS
+  ACCOUNT_APPROVED
+  ACCOUNT_SUSPENDED
+  SECURITY_ALERT
+  SYSTEM_ANNOUNCEMENT
+}
+
+enum NotificationChannel {
+  IN_APP
+  EMAIL
+  SMS
+  PUSH
+}
+
+// ===== SUPPORT SYSTEM =====
+model SupportTicket {
+  id            String   @id @default(cuid())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String
+  subject       String
+  description   String
+  category      SupportCategory
+  priority      SupportPriority @default(MEDIUM)
+  status        SupportStatus @default(OPEN)
+  
+  // Assignment
+  assignedTo    String?  // Admin ID
+  assignedAt    DateTime?
+  
+  // Resolution
+  resolvedAt    DateTime?
+  resolution    String?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  messages      SupportMessage[]
+  
+  @@map("support_tickets")
+}
+
+model SupportMessage {
+  id            String   @id @default(cuid())
+  ticket        SupportTicket @relation(fields: [ticketId], references: [id])
+  ticketId      String
+  senderId      String   // User or Admin ID
+  senderType    SenderType
+  message       String
+  attachments   String[] // Array of file URLs
+  
+  createdAt     DateTime @default(now())
+  
+  @@map("support_messages")
+}
+
+enum SupportCategory {
+  TECHNICAL
+  PAYMENT
+  ACCOUNT
+  TASK
+  GENERAL
+}
+
+enum SupportPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum SupportStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum SenderType {
+  USER
+  ADMIN
+  SYSTEM
+}
+
+// ===== ANALYTICS & REPORTING =====
+model Analytics {
+  id            String   @id @default(cuid())
+  date          DateTime
+  metric        String
+  value         Float
+  metadata      Json?
+  
+  createdAt     DateTime @default(now())
+  
+  @@unique([date, metric])
+  @@map("analytics")
+}
+
+model Report {
+  id            String   @id @default(cuid())
+  name          String
+  type          ReportType
+  parameters    Json?    // Report parameters
+  data          Json?    // Report data
+  generatedBy   String?  // Admin ID
+  generatedAt   DateTime @default(now())
+  
+  @@map("reports")
+}
+
+enum ReportType {
+  USER_ANALYTICS
+  TASK_PERFORMANCE
+  FINANCIAL_SUMMARY
+  REFERRAL_STATS
+  SYSTEM_HEALTH
+}
+
+// ===== SYSTEM MANAGEMENT =====
+model Setting {
+  id            String   @id @default(cuid())
+  key           String   @unique
+  value         Json
+  category      String?
+  description   String?
+  isPublic      Boolean  @default(false)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@map("settings")
+}
+
+model AuditLog {
+  id            String   @id @default(cuid())
+  actorId       String?  // User or Admin ID
+  actorType     String?  // USER, ADMIN, SYSTEM
+  action        String
+  resource      String?  // Resource type (User, Task, etc.)
+  resourceId    String?  // Resource ID
+  metadata      Json?
+  ipAddress     String?
+  userAgent     String?
+  
+  createdAt     DateTime @default(now())
+  
+  @@map("audit_logs")
+}
+
+model Session {
+  id            String   @id @default(cuid())
+  userId        String
+  token         String   @unique
+  expiresAt     DateTime
+  ipAddress     String?
+  userAgent     String?
+  
+  createdAt     DateTime @default(now())
+  
+  @@map("sessions")
+}
+
+// ===== CONTEST & COMPETITION SYSTEM =====
+model Contest {
+  id            String   @id @default(cuid())
+  name          String
+  description   String
+  type          ContestType
+  startDate     DateTime
+  endDate       DateTime
+  prize         Float
+  rules         Json?    // Contest rules and requirements
+  status        ContestStatus @default(DRAFT)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  participants  ContestParticipant[]
+  
+  @@map("contests")
+}
+
+model ContestParticipant {
+  id            String   @id @default(cuid())
+  contest       Contest  @relation(fields: [contestId], references: [id])
+  contestId     String
+  userId        String
+  score         Int      @default(0)
+  rank          Int?
+  prize         Float?
+  
+  createdAt     DateTime @default(now())
+  
+  @@unique([contestId, userId])
+  @@map("contest_participants")
+}
+
+enum ContestType {
+  MONTHLY
+  WEEKLY
+  SPECIAL_EVENT
+  REFERRAL
+  QUALITY_BASED
+}
+
+enum ContestStatus {
+  DRAFT
+  ACTIVE
+  ENDED
+  CANCELLED
+}
