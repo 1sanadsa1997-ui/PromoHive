@@ -4,7 +4,7 @@
 -- هذا الملف يحتوي على الإعداد الكامل لقاعدة البيانات
 -- يجب تشغيله على قاعدة بيانات Supabase فارغة
 --
--- Service Role Key المطلوب: sbp_13f2ca08cd51cf75b23abb66f022e5639e66bcec
+-- Service Role Key المطلوب: سيتم توفيره من المستخدم
 --
 -- بيانات الدخول الافتراضية:
 -- 1. مدير النظام: admin@ibrahim-system.com / SystemAdmin123!
@@ -228,4 +228,3 @@ FROM currencies;
 \echo '   WhatsApp: +963 994 054 027'
 \echo '   البريد: systemibrahem@gmail.com'
 \echo ''
-

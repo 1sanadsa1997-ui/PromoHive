@@ -6,7 +6,7 @@
 
 ## 🔑 معلومات الاتصال
 
-- **Service Role Key**: `sbp_13f2ca08cd51cf75b23abb66f022e5639e66bcec`
+- **Service Role Key**: سيتم توفيره من المستخدم
 - **Project URL**: سيتم توفيره بعد إنشاء المشروع
 
 ## 📁 ملفات الإعداد
@@ -136,7 +136,7 @@
 ```env
 VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your-anon-key
-SUPABASE_SERVICE_ROLE_KEY=sbp_13f2ca08cd51cf75b23abb66f022e5639e66bcec
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ```
 
 ## 📈 الجداول المنشأة
@@ -218,4 +218,3 @@ SUPABASE_SERVICE_ROLE_KEY=sbp_13f2ca08cd51cf75b23abb66f022e5639e66bcec
 ---
 
 **تم إعداد قاعدة البيانات بنجاح! 🎉**
-
