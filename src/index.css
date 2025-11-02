@@ -574,3 +574,79 @@ body {
 .dark * {
   transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
+
+/* No White Colors - Colorful Theme */
+body {
+  background: linear-gradient(135deg, #f97316 0%, #dc2626 50%, #ec4899 100%) !important;
+  min-height: 100vh;
+}
+
+/* Override any white backgrounds */
+.bg-white {
+  background: linear-gradient(135deg, #fed7aa 0%, #fecaca 50%, #fbcfe8 100%) !important;
+}
+
+.dark .bg-white {
+  background: linear-gradient(135deg, #ea580c 0%, #dc2626 50%, #be185d 100%) !important;
+}
+
+/* Colorful card backgrounds */
+.card-colorful {
+  background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 25%, #fecaca 50%, #fbcfe8 75%, #e0e7ff 100%) !important;
+}
+
+.dark .card-colorful {
+  background: linear-gradient(135deg, #92400e 0%, #ea580c 25%, #dc2626 50%, #be185d 75%, #4338ca 100%) !important;
+}
+
+/* Colorful text on colorful backgrounds */
+.text-on-colorful {
+  color: #7c2d12 !important;
+}
+
+.dark .text-on-colorful {
+  color: #fed7aa !important;
+}
+
+/* Colorful borders */
+.border-colorful {
+  border-color: #f97316 !important;
+}
+
+.dark .border-colorful {
+  border-color: #fed7aa !important;
+}
+
+/* Remove all white from inputs */
+input, textarea, select {
+  background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%) !important;
+  color: #7c2d12 !important;
+  border-color: #f97316 !important;
+}
+
+.dark input, .dark textarea, .dark select {
+  background: linear-gradient(135deg, #92400e 0%, #ea580c 100%) !important;
+  color: #fed7aa !important;
+  border-color: #fed7aa !important;
+}
+
+/* Colorful buttons */
+.btn-colorful {
+  background: linear-gradient(135deg, #fbbf24 0%, #f97316 50%, #dc2626 100%) !important;
+  color: white !important;
+  border: none !important;
+}
+
+.btn-colorful:hover {
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 50%, #b91c1c 100%) !important;
+  transform: scale(1.05) !important;
+}
+
+/* Colorful shadows */
+.shadow-colorful {
+  box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.3), 0 10px 10px -5px rgba(220, 38, 38, 0.2) !important;
+}
+
+.dark .shadow-colorful {
+  box-shadow: 0 10px 25px -5px rgba(234, 88, 12, 0.4), 0 10px 10px -5px rgba(185, 28, 28, 0.3) !important;
+}
