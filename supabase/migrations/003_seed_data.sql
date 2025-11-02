@@ -47,7 +47,7 @@ INSERT INTO users (
     '00000000-0000-0000-0000-000000000001',
     'systemibrahem@gmail.com',
     'ibrahim_admin',
-    'DEMO_HASH_REPLACE_IN_PRODUCTION', -- password: ibrahim123
+    '$2b$10$DEMO.PLACEHOLDER.FOR.DEVELOPMENT.ONLY', -- password: ibrahim123 (demo placeholder)
     'إبراهيم - مالك النظام',
     'system_owner',
     '{"all": true}',
@@ -77,7 +77,7 @@ INSERT INTO users (
     '00000000-0000-0000-0000-000000000001',
     'manager@demo.com',
     'store_manager',
-    'DEMO_HASH_REPLACE_IN_PRODUCTION', -- password: ibrahim123
+    '$2b$10$DEMO.PLACEHOLDER.FOR.DEVELOPMENT.ONLY', -- password: ibrahim123 (demo placeholder)
     'أحمد محمد - مدير المتجر',
     'store_manager',
     '{"invoices": {"read": true, "write": true, "delete": false}, "inventory": {"read": true, "write": true, "delete": false}, "employees": {"read": true, "write": true, "delete": false}, "reports": {"read": true, "write": false, "delete": false}}',
@@ -108,7 +108,7 @@ INSERT INTO users (
     '00000000-0000-0000-0000-000000000001',
     'accountant@demo.com',
     'accountant',
-    'DEMO_HASH_REPLACE_IN_PRODUCTION', -- password: ibrahim123
+    '$2b$10$DEMO.PLACEHOLDER.FOR.DEVELOPMENT.ONLY', -- password: ibrahim123 (demo placeholder)
     'فاطمة علي - محاسبة',
     'accountant',
     '{"invoices": {"read": true, "write": true, "delete": false}, "reports": {"read": true, "write": false, "delete": false}, "payroll": {"read": true, "write": true, "delete": false}}',
