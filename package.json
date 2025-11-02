@@ -1,5 +1,5 @@
 {
-  "name": "fusion-starter",
+  "name": "ibrahim-accounting-system",
   "private": true,
   "type": "module",
   "pkg": {
@@ -32,6 +32,7 @@
     "production": "NODE_ENV=production pnpm start"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
     "@prisma/client": "^6.17.0",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.2.1",
@@ -56,7 +57,14 @@
     "speakeasy": "^2.0.0",
     "node-cron": "^3.0.3",
     "socket.io": "^4.8.1",
-    "socket.io-client": "^4.8.1"
+    "socket.io-client": "^4.8.1",
+    "jspdf": "^2.5.2",
+    "xlsx": "^0.18.5",
+    "firebase-admin": "^12.6.0",
+    "argon2": "^0.41.1",
+    "i18next": "^23.15.2",
+    "react-i18next": "^15.0.2",
+    "i18next-browser-languagedetector": "^8.0.0"
   },
   "devDependencies": {
     "@hookform/resolvers": "^5.2.1",
