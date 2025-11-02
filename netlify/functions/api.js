@@ -31,7 +31,7 @@ app.use(helmet({
 
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://ibrahim-accounting.netlify.app', 'https://*.netlify.app']
+    ? ['https://ibrahim-accounting-system-2024.netlify.app', 'https://*.netlify.app']
     : ['http://localhost:3000', 'http://localhost:5173'],
   credentials: true
 }))
