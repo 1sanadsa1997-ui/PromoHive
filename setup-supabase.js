@@ -6,7 +6,7 @@ const path = require('path');
 
 // معلومات الاتصال بـ Supabase
 const SUPABASE_URL = 'https://wpougbxitczmgusszfpj.supabase.co';
-const SUPABASE_SERVICE_ROLE_KEY = 'sbp_13f2ca08cd51cf75b23abb66f022e5639e66bcec';
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 // إنشاء عميل Supabase
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
@@ -104,4 +104,3 @@ async function setupDatabase() {
 
 // تشغيل الإعداد
 setupDatabase();
-
