@@ -1,271 +1,337 @@
-# 🚀 PromoHive Global Promo Network
+# 🏪 نظام إبراهيم للمحاسبة - Ibrahim Accounting System
 
-A comprehensive, enterprise-grade web application for task completion and reward platform with complete features and details.
+نظام محاسبي شامل ومتكامل يدعم **متاجر متعددة** مع **عزل البيانات الكامل** ونظام **اشتراكات مدفوعة** مع تجربة مجانية 30 يوم.
 
-## 🌟 Features
+## 🌟 الميزات الرئيسية
 
-### ✅ Authentication & Security
-- Complete user registration with email validation
-- Secure login with JWT tokens
-- Two-factor authentication (2FA)
-- Password reset functionality
-- Account lockout protection
-- Role-based access control
+### 🔐 نظام المصادقة والأمان
+- ✅ **Supabase Authentication** مع JWT tokens
+- ✅ **Row Level Security (RLS)** لعزل بيانات المتاجر
+- ✅ **Middleware شامل** للتحقق من الصلاحيات والاشتراكات
+- ✅ **Audit Logging** تلقائي لجميع العمليات
+- ✅ **bcrypt** لتشفير كلمات المرور (12 salt rounds)
+- ✅ **Rate Limiting** وحماية من الهجمات
 
-### 👥 User Management
-- User profiles with avatar upload
-- Account verification system
-- Admin approval workflow
-- User status management (Pending, Approved, Suspended, Banned)
-- Login history tracking
+### 💳 نظام الاشتراكات المدفوعة
+- ✅ **3 خطط اشتراك:**
+  - 📅 **شهرية**: $5 لمدة 30 يوم
+  - 📅 **نصف سنوية**: $30 لمدة 180 يوم (وفر 50%)
+  - 📅 **سنوية**: $40 لمدة 365 يوم (وفر 67%)
+- ✅ **تجربة مجانية** 30 يوم لكل متجر جديد
+- ✅ **تكامل WhatsApp** للترقية والدعم الفني
+- ✅ **تنبيهات تلقائية** لانتهاء الاشتراكات
 
-### 📋 Task Management
-- Multiple task types (Text, Image, Video, URL, Survey, etc.)
-- Task difficulty levels (Easy, Medium, Hard, Expert)
-- Verification system (Manual, Automatic, AI, Peer Review)
-- Task categories and tags
-- Participant limits and restrictions
+### 🏪 نظام المتاجر المتعدد
+- ✅ **عزل البيانات الكامل** بين المتاجر
+- ✅ **صلاحيات متدرجة**: مالك النظام → مدير المتجر → موظفين
+- ✅ **إدارة المستخدمين** مع صلاحيات دقيقة
+- ✅ **ربط صلاحيات الموظفين** بمدة اشتراك المتجر
 
-### 📈 Level System
-- **Level 0:** $9.90 earning limit (encourages upgrade)
-- **Level 1:** $70 rewards, unlimited tasks
-- **Level 2:** $130 rewards, premium features
-- **Level 3:** $180 rewards, VIP benefits
-- Level upgrade system with payment
+### 🌍 الترجمة والتدويل
+- ✅ **3 لغات**: العربية، الإنجليزية، التركية
+- ✅ **395 مفتاح ترجمة** شامل
+- ✅ **دعم RTL** للعربية
+- ✅ **تذكر اللغة المختارة**
 
-### 💰 Financial System
-- Multiple payment methods (Credit Card, PayPal, Crypto, etc.)
-- Withdrawal system with approval workflow
-- Transaction history and tracking
-- Referral bonus system ($5 per referral)
-- Welcome bonus ($5 for new users)
+### 💰 دعم العملات المتعددة
+- ✅ **5 عملات**: SYP، USD، TRY، EUR، GBP
+- ✅ **اختيار العملة** في كل عملية مالية
+- ✅ **عرض الإجماليات** حسب العملة
+- ✅ **رموز العملات** المحلية
 
-### 🔔 Notification System
-- In-app notifications
-- Email notifications with beautiful templates
-- SMS notifications (Twilio integration)
-- Push notifications
-- Notification preferences
+## 🛠️ البنية التقنية
 
-### 🎮 Gamification
-- Achievement system with badges
-- Points and rewards
-- Streak bonuses
-- Leaderboards
-- Contest system
+### Backend (Node.js + Express)
+```
+server/
+├── config/supabase.js          # إعداد Supabase
+├── middleware/auth.js          # المصادقة والصلاحيات
+├── services/
+│   ├── authService.js          # خدمة المصادقة
+│   └── subscriptionService.js  # خدمة الاشتراكات
+└── routes/
+    ├── auth.js                 # نقاط نهاية المصادقة
+    └── subscription.js         # نقاط نهاية الاشتراكات
+```
 
-### 🛠️ Admin Panel
-- Comprehensive user management
-- Task creation and management
-- Financial oversight
-- Analytics and reporting
-- System settings
-- Audit logs
+### Frontend (React + Vite)
+```
+src/
+├── contexts/AuthContext.jsx           # إدارة حالة المصادقة
+├── components/
+│   ├── Auth/LoginForm.jsx             # نموذج تسجيل الدخول
+│   ├── Dashboard/Dashboard.jsx        # لوحة التحكم الرئيسية
+│   └── Subscription/
+│       ├── SubscriptionStatus.jsx     # عرض حالة الاشتراك
+│       └── UpgradeModal.jsx          # نافذة ترقية الاشتراك
+└── i18n/locales/                      # ملفات الترجمة
+    ├── ar.json                        # العربية (395 مفتاح)
+    ├── en.json                        # الإنجليزية
+    └── tr.json                        # التركية
+```
 
-### 💬 Support System
-- Help desk with ticket system
-- Knowledge base
-- Live chat integration
-- WhatsApp integration (+1 725 334-8692)
-- Support categories and priorities
+### Database (Supabase PostgreSQL)
+```
+supabase/
+├── config.toml                        # إعداد Supabase
+└── migrations/
+    ├── 001_initial_schema.sql         # المخطط الأساسي (14 جدول)
+    ├── 002_row_level_security.sql     # سياسات الأمان والـ RLS
+    └── 003_seed_data.sql              # البيانات التجريبية
+```
 
-## 🚀 Quick Start
+## 📊 قاعدة البيانات
 
-### Prerequisites
-- Node.js 18+
-- PostgreSQL 14+
-- pnpm (recommended) or npm
+### الجداول الرئيسية (14 جدول)
+1. **currencies** - العملات المدعومة
+2. **stores** - معلومات المتاجر وحالة الاشتراكات
+3. **users** - بيانات المستخدمين والأدوار والصلاحيات
+4. **audit_logs** - سجل جميع العمليات وتتبع التغييرات
+5. **partners** - العملاء والموردين
+6. **invoices_in** - الفواتير الواردة (المبيعات)
+7. **invoices_out** - الفواتير الصادرة (المشتريات)
+8. **inventory_items** - المنتجات بالمستودع
+9. **inventory_movements** - حركات المخزون (إدخال/إخراج)
+10. **employees** - بيانات الموظفين
+11. **employee_transactions** - السلف والخصومات والمكافآت والغياب
+12. **payroll** - كشوف الرواتب الشهرية
+13. **alerts** - التنبيهات والإشعارات
+14. **settings** - إعدادات النظام الشاملة
 
-### Installation
+### الفهارس والأداء
+- **40+ فهرس استراتيجي** على الحقول الشائعة
+- **فهارس مركبة** على `(store_id, created_at)` للاستعلامات السريعة
+- **فهارس على الحالات** `status`, `currency`, `type` للتصفية
 
+## 🔒 الأمان والحماية
+
+### Row Level Security (RLS)
+- ✅ **عزل تام** لبيانات كل متجر
+- ✅ **لا يمكن لأي مستخدم** الوصول لبيانات متجر آخر
+- ✅ **سياسات أمان** على مستوى قاعدة البيانات
+
+### Audit Logging
+- ✅ **تسجيل جميع العمليات** تلقائياً
+- ✅ **تتبع التغييرات** مع IP Address و User Agent
+- ✅ **عدم إمكانية الحذف** إلا بموافقة مدير المتجر
+
+### التحقق من الاشتراكات
+- ✅ **فحص تلقائي** لصحة الاشتراك في كل طلب
+- ✅ **منع الوصول** عند انتهاء الاشتراك
+- ✅ **تنبيهات مسبقة** قبل انتهاء الاشتراك بـ 7 أيام
+
+## 🚀 التشغيل والإعداد
+
+### متطلبات النظام
+- Node.js 18+ 
+- npm أو yarn
+- Supabase CLI
+- Git
+
+### متغيرات البيئة
+
+#### Backend (.env)
 ```bash
-# Clone the repository
-git clone https://github.com/1sanadsa1997-ui/PromoHive.git
-cd PromoHive
+# Supabase Configuration
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 
-# Install dependencies
-pnpm install
+# WhatsApp Integration
+WHATSAPP_PHONE_NUMBER=+963994054027
 
-# Copy environment file
-cp env.local .env
+# JWT Configuration
+JWT_SECRET=your_jwt_secret_key
+JWT_EXPIRES_IN=1h
 
-# Edit .env file with your database credentials
-# DATABASE_URL="postgresql://username:password@localhost:5432/promohive"
+# Server Configuration
+PORT=5000
+NODE_ENV=development
 ```
 
-### Database Setup
-
+#### Frontend (.env)
 ```bash
-# Generate Prisma client
-pnpm prisma generate
+# Supabase Configuration
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
-# Run database migrations
-pnpm prisma migrate dev
+# API Configuration
+VITE_API_URL=http://localhost:5000/api
 
-# Seed the database with initial data
-npx tsx prisma/seed.ts
+# App Configuration
+VITE_APP_NAME="نظام إبراهيم للمحاسبة"
+VITE_SUPPORT_EMAIL=systemibrahem@gmail.com
+VITE_SUPPORT_PHONE=+963994054027
 ```
 
-### Start Development Server
+### خطوات التشغيل
 
+#### 1. إعداد قاعدة البيانات
 ```bash
-# Start the development server
-pnpm dev
+# تسجيل الدخول إلى Supabase
+npx supabase login
+
+# ربط المشروع
+npx supabase link --project-ref your-project-ref
+
+# تطبيق migrations
+npx supabase db push
+
+# أو تشغيل محلي
+npx supabase start
 ```
 
-The application will be available at: http://localhost:8080
-
-## 🔐 Default Credentials
-
-### Super Admin
-- **Email:** admin@promohive.com
-- **Password:** admin123
-- **Access:** Full admin panel access
-
-### Demo User
-- **Email:** demo@promohive.com
-- **Password:** user123
-- **Access:** Regular user account with sample data
-
-## 📱 Support
-- **WhatsApp:** +1 (725) 334-8692
-- **Direct Link:** https://wa.me/17253348692
-- **Email:** support@promohive.com
-
-## 🛠️ Development Commands
-
+#### 2. تشغيل Backend
 ```bash
-# Development
-pnpm dev              # Start dev server
-pnpm build            # Build for production
-pnpm start            # Start production server
-pnpm typecheck        # TypeScript validation
-pnpm test             # Run tests
-
-# Database
-pnpm prisma studio    # Open Prisma Studio
-pnpm prisma migrate   # Run migrations
-pnpm prisma generate  # Generate Prisma client
-npx tsx prisma/seed.ts # Seed database
+cd server
+npm install
+npm run dev
 ```
 
-## 📁 Project Structure
-
-```
-├── client/                 # React frontend
-│   ├── components/         # UI components
-│   ├── pages/             # Page components
-│   ├── hooks/             # Custom hooks
-│   └── lib/               # Utilities
-├── server/                # Express backend
-│   ├── routes/            # API routes
-│   ├── lib/               # Server utilities
-│   └── config/            # Configuration
-├── shared/                # Shared types
-├── prisma/                # Database schema
-└── public/                # Static assets
-```
-
-## 🔧 Configuration
-
-### Environment Variables
-All configuration is done through environment variables in `.env`:
-
-- **Database:** PostgreSQL connection string
-- **Email:** SMTP configuration for notifications
-- **SMS:** Twilio configuration for SMS
-- **Payments:** Stripe/PayPal configuration
-- **Security:** JWT secrets and security settings
-- **Features:** Enable/disable features
-
-### Level System Configuration
-```env
-LEVEL_0_MAX_EARNINGS=9.90
-LEVEL_1_REWARD_LIMIT=70
-LEVEL_2_REWARD_LIMIT=130
-LEVEL_3_REWARD_LIMIT=180
-```
-
-### Referral System
-```env
-REFERRAL_BONUS_AMOUNT=5.00
-WELCOME_BONUS_AMOUNT=5.00
-```
-
-## 📊 Sample Data
-
-The seed script creates:
-- 1 Super Admin account
-- 1 Demo user account
-- 5 Sample tasks
-- 5 Achievement badges
-- System settings
-- Email templates
-
-## 🚀 Production Deployment
-
-### Docker Deployment
+#### 3. تشغيل Frontend
 ```bash
-# Build Docker image
-docker build -t promohive .
-
-# Run with Docker Compose
-docker-compose up -d
+cd client
+npm install
+npm run dev
 ```
 
-### Manual Deployment
-```bash
-# Build the application
-pnpm build
+#### 4. الوصول للتطبيق
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:5000
+- **Supabase Studio**: http://localhost:54323
 
-# Start production server
-pnpm start
+## 📱 واجهة المستخدم
+
+### 🎨 التصميم
+- ✅ **Tailwind CSS** مع تصميم حديث
+- ✅ **Dark Mode** قابل للتفعيل
+- ✅ **Responsive Design** لجميع الأجهزة
+- ✅ **Gradient Designs** احترافية
+
+### 🔧 المكونات
+- ✅ **نموذج تسجيل دخول** مع validation شامل
+- ✅ **لوحة تحكم** مع KPI cards وإحصائيات
+- ✅ **مكون حالة الاشتراك** مع تنبيهات ملونة
+- ✅ **نافذة ترقية** مع مقارنة الخطط
+
+## 📞 الدعم الفني
+
+### 📧 معلومات الاتصال
+- **البريد الإلكتروني**: systemibrahem@gmail.com
+- **WhatsApp**: +963 994 054 027
+- **تكامل مباشر** في جميع واجهات النظام
+
+### 🤖 الترقية التلقائية
+- ✅ **روابط WhatsApp** تلقائية مع تفاصيل المتجر والخطة
+- ✅ **رسائل مُعدة مسبقاً** للترقية والدعم
+- ✅ **تحويل مباشر** للدعم الفني
+
+## 🧪 البيانات التجريبية
+
+### المستخدمون التجريبيون
+```
+مدير المتجر:
+- البريد: manager@ibrahim-accounting.com
+- اسم المستخدم: manager
+- كلمة المرور: manager123
+
+المحاسب:
+- البريد: accountant@ibrahim-accounting.com
+- اسم المستخدم: accountant
+- كلمة المرور: accountant123
+
+مراقب المستودع:
+- البريد: warehouse@ibrahim-accounting.com
+- اسم المستخدم: warehouse
+- كلمة المرور: warehouse123
 ```
 
-## 🎯 Tech Stack
+### البيانات المتضمنة
+- **5 عملات** مدعومة
+- **متجر تجريبي** واحد مع تجربة مجانية 30 يوم
+- **3 مستخدمين** بأدوار مختلفة
+- **4 شركاء** (عملاء وموردين)
+- **3 منتجات** في المستودع
+- **4 فواتير** (واردة وصادرة)
+- **3 موظفين** مع بيانات كاملة
+- **3 تنبيهات** تجريبية
+- **5 إعدادات** أساسية
 
-### Frontend
-- React 18 with TypeScript
-- React Router 6 for navigation
-- TailwindCSS for styling
-- Radix UI for accessible components
-- React Hook Form for form management
-- Zod for validation
-- React Query for data fetching
-- Zustand for state management
-- Framer Motion for animations
-- Recharts for data visualization
+## 🔄 API Endpoints
 
-### Backend
-- Node.js with Express.js
-- TypeScript for type safety
-- PostgreSQL with NeonDB
-- Prisma ORM for database management
-- JWT for authentication
-- bcrypt for password hashing
-- Nodemailer for email services
-- Multer for file uploads
-- Helmet for security headers
-- Winston for logging
+### المصادقة
+```
+POST /api/auth/login          # تسجيل الدخول
+POST /api/auth/refresh        # تجديد الرمز
+POST /api/auth/logout         # تسجيل الخروج
+GET  /api/auth/profile        # الملف الشخصي
+PUT  /api/auth/profile        # تحديث الملف الشخصي
+```
 
-## 📄 License
+### الاشتراكات
+```
+GET  /api/subscription/plans           # خطط الاشتراك
+GET  /api/subscription/status          # حالة الاشتراك
+POST /api/subscription/whatsapp-upgrade # رابط ترقية WhatsApp
+```
 
-This project is licensed under the MIT License.
+### الفواتير (قادماً)
+```
+GET    /api/invoices/in               # الفواتير الواردة
+POST   /api/invoices/in               # إنشاء فاتورة واردة
+GET    /api/invoices/in/:id           # فاتورة واردة محددة
+PUT    /api/invoices/in/:id           # تحديث فاتورة واردة
+DELETE /api/invoices/in/:id           # حذف فاتورة واردة
 
-## 🤝 Contributing
+GET    /api/invoices/out              # الفواتير الصادرة
+POST   /api/invoices/out              # إنشاء فاتورة صادرة
+GET    /api/invoices/out/:id          # فاتورة صادرة محددة
+PUT    /api/invoices/out/:id          # تحديث فاتورة صادرة
+DELETE /api/invoices/out/:id          # حذف فاتورة صادرة
+```
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## 🎯 الخطوات التالية
 
-## 📞 Contact
+### المرحلة القادمة
+1. **تطوير باقي API endpoints** (الفواتير، المستودع، الموظفين)
+2. **إنشاء مكونات React إضافية** للواجهة الأمامية
+3. **نظام التقارير والتصدير** PDF/Excel
+4. **نظام التنبيهات والإشعارات** الذكية
+5. **تطبيق الأندرويد** React Native/Flutter
 
-- **Project Link:** [https://github.com/1sanadsa1997-ui/PromoHive](https://github.com/1sanadsa1997-ui/PromoHive)
-- **WhatsApp:** +1 (725) 334-8692
-- **Email:** support@promohive.com
+### الميزات المطلوبة
+- 📊 **إدارة الواردات والصادرات**
+- 📦 **إدارة المستودع والمخزون**
+- 👥 **إدارة الموظفين والرواتب**
+- 📈 **التقارير والإحصائيات**
+- 🔔 **التنبيهات الذكية**
+- 📱 **تطبيق الأندرويد**
+
+## 🤝 المساهمة
+
+نرحب بالمساهمات! يرجى اتباع هذه الخطوات:
+
+1. Fork المشروع
+2. إنشاء branch للميزة (`git checkout -b feature/AmazingFeature`)
+3. Commit التغييرات (`git commit -m 'Add some AmazingFeature'`)
+4. Push إلى Branch (`git push origin feature/AmazingFeature`)
+5. فتح Pull Request
+
+## 📄 الترخيص
+
+هذا المشروع مرخص تحت رخصة MIT - راجع ملف [LICENSE](LICENSE) للتفاصيل.
+
+## 🙏 شكر وتقدير
+
+- [Supabase](https://supabase.com/) - قاعدة البيانات والمصادقة
+- [React](https://reactjs.org/) - مكتبة واجهة المستخدم
+- [Tailwind CSS](https://tailwindcss.com/) - إطار عمل CSS
+- [Vite](https://vitejs.dev/) - أداة البناء
+- [Node.js](https://nodejs.org/) - بيئة تشغيل JavaScript
 
 ---
 
-⭐ **Star this repository if you found it helpful!**
+**🎉 النظام جاهز للاستخدام والتطوير!**
+
+للدعم الفني: [systemibrahem@gmail.com](mailto:systemibrahem@gmail.com) | [WhatsApp](https://wa.me/963994054027)
+

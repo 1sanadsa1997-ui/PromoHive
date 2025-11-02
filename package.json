@@ -1,7 +1,47 @@
 {
-  "name": "fusion-starter",
-  "private": true,
+  "name": "ibrahim-accounting-system",
+  "version": "1.0.0",
+  "description": "نظام إبراهيم للمحاسبة - نظام محاسبي شامل ومتكامل يدعم متاجر متعددة مع عزل البيانات الكامل ونظام اشتراكات مدفوعة",
+  "private": false,
   "type": "module",
+  "author": {
+    "name": "Ibrahim Accounting System",
+    "email": "systemibrahem@gmail.com",
+    "url": "https://wa.me/963994054027"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1sanadsa1997-ui/ibrahim-accounting-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/1sanadsa1997-ui/ibrahim-accounting-system/issues",
+    "email": "systemibrahem@gmail.com"
+  },
+  "homepage": "https://github.com/1sanadsa1997-ui/ibrahim-accounting-system#readme",
+  "keywords": [
+    "accounting",
+    "محاسبة",
+    "multi-tenant",
+    "saas",
+    "supabase",
+    "react",
+    "nodejs",
+    "express",
+    "postgresql",
+    "subscription",
+    "arabic",
+    "ibrahim",
+    "stores",
+    "inventory",
+    "invoices",
+    "payroll",
+    "employees"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "pkg": {
     "assets": [
       "dist/spa/*"
@@ -25,14 +65,17 @@
     "docker:compose": "docker-compose up -d",
     "docker:logs": "docker-compose logs -f",
     "docker:stop": "docker-compose down",
-    "db:migrate": "prisma migrate deploy",
-    "db:seed": "tsx prisma/seed.ts",
-    "db:studio": "prisma studio",
-    "db:reset": "prisma migrate reset",
+    "db:setup": "npx supabase start",
+    "db:migrate": "npx supabase db push",
+    "db:seed": "npx supabase db reset --linked",
+    "db:studio": "npx supabase studio",
+    "db:reset": "npx supabase db reset",
+    "db:stop": "npx supabase stop",
     "production": "NODE_ENV=production pnpm start"
   },
   "dependencies": {
-    "@prisma/client": "^6.17.0",
+    "@supabase/supabase-js": "^2.39.0",
+    "@supabase/auth-helpers-react": "^0.4.2",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
@@ -42,21 +85,15 @@
     "express-rate-limit": "^7.4.1",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.4",
-    "twilio": "^5.3.5",
-    "stripe": "^17.3.1",
-    "passport": "^0.7.0",
-    "passport-google-oauth20": "^2.0.0",
-    "passport-facebook": "^3.0.0",
     "express-validator": "^7.2.0",
     "compression": "^1.7.4",
     "winston": "^3.18.0",
-    "redis": "^4.7.0",
     "sharp": "^0.33.5",
-    "qrcode": "^1.5.4",
-    "speakeasy": "^2.0.0",
     "node-cron": "^3.0.3",
-    "socket.io": "^4.8.1",
-    "socket.io-client": "^4.8.1"
+    "i18next": "^23.7.16",
+    "react-i18next": "^13.5.0",
+    "i18next-browser-languagedetector": "^7.2.0",
+    "i18next-http-backend": "^2.4.2"
   },
   "devDependencies": {
     "@hookform/resolvers": "^5.2.1",
@@ -124,7 +161,7 @@
     "next-themes": "^0.4.6",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
-    "prisma": "^6.17.0",
+    "supabase": "^1.123.4",
     "react": "^18.3.1",
     "react-day-picker": "^9.8.1",
     "react-dom": "^18.3.1",
