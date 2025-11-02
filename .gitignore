@@ -108,3 +108,5 @@ public/uploads/
 # Backup files
 *.bak
 *.backup
+# Local Netlify folder
+.netlify

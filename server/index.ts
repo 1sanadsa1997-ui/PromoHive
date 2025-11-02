@@ -24,6 +24,11 @@ export function createServer() {
     .then((mod) => app.use("/api/auth", mod.default))
     .catch((err) => console.error("Auth routes not loaded:", err));
 
+  // Subscription routes
+  import("./routes/subscription")
+    .then((mod) => app.use("/api/subscription", mod.default))
+    .catch((err) => console.error("Subscription routes not loaded:", err));
+
   // Public routes (import dynamically)
   import("./routes/public")
     .then((mod) => {
