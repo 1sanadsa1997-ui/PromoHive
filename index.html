@@ -1,14 +1,121 @@
 <!doctype html>
-<html lang="en">
+<html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello world project</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>نظام إبراهيم للمحاسبة - Ibrahim Accounting System</title>
+    <meta name="description" content="نظام محاسبي شامل ومتكامل يدعم متاجر متعددة مع عزل البيانات الكامل ونظام اشتراكات مدفوعة مع تجربة مجانية 30 يوم" />
+    <meta name="keywords" content="محاسبة, نظام محاسبي, إدارة المتاجر, فواتير, مخزون, رواتب, موظفين, accounting, inventory, invoices, payroll" />
+    <meta name="author" content="Ibrahim Accounting System" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="نظام إبراهيم للمحاسبة - Ibrahim Accounting System" />
+    <meta property="og:description" content="نظام محاسبي شامل ومتكامل يدعم متاجر متعددة مع عزل البيانات الكامل ونظام اشتراكات مدفوعة" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ibrahim-accounting.netlify.app" />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:locale" content="ar_SA" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:locale:alternate" content="tr_TR" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="نظام إبراهيم للمحاسبة" />
+    <meta name="twitter:description" content="نظام محاسبي شامل ومتكامل يدعم متاجر متعددة" />
+    <meta name="twitter:image" content="/og-image.png" />
+    
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#2563eb" />
+    <meta name="msapplication-TileColor" content="#2563eb" />
+    
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="/src/main.jsx" as="script" />
+    <link rel="preload" href="/src/index.css" as="style" />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "نظام إبراهيم للمحاسبة",
+      "alternateName": "Ibrahim Accounting System",
+      "description": "نظام محاسبي شامل ومتكامل يدعم متاجر متعددة مع عزل البيانات الكامل ونظام اشتراكات مدفوعة",
+      "url": "https://ibrahim-accounting.netlify.app",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "5",
+        "priceCurrency": "USD",
+        "priceValidUntil": "2025-12-31",
+        "availability": "https://schema.org/InStock"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Ibrahim Accounting System",
+        "email": "systemibrahem@gmail.com",
+        "telephone": "+963994054027"
+      },
+      "inLanguage": ["ar", "en", "tr"],
+      "featureList": [
+        "إدارة الفواتير الواردة والصادرة",
+        "إدارة المستودع والمخزون",
+        "إدارة الموظفين والرواتب",
+        "التقارير والإحصائيات",
+        "دعم العملات المتعددة",
+        "نظام اشتراكات مدفوعة"
+      ]
+    }
+    </script>
   </head>
-
-  <body>
+  <body class="font-cairo">
     <div id="root"></div>
-
-    <script type="module" src="/client/App.tsx"></script>
+    <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Loading Screen -->
+    <noscript>
+      <div style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background-color: #f9fafb;
+        font-family: 'Cairo', sans-serif;
+        text-align: center;
+        padding: 20px;
+      ">
+        <h1 style="color: #2563eb; font-size: 2rem; margin-bottom: 1rem;">
+          نظام إبراهيم للمحاسبة
+        </h1>
+        <p style="color: #6b7280; font-size: 1.1rem; margin-bottom: 2rem;">
+          يرجى تفعيل JavaScript لاستخدام النظام
+        </p>
+        <p style="color: #9ca3af; font-size: 0.9rem;">
+          Please enable JavaScript to use the system
+        </p>
+      </div>
+    </noscript>
   </body>
 </html>
+
